@@ -1,6 +1,6 @@
 from tkinter import *
 
-#CORES -----------------------------------
+# CORES -----------------------------------
 co0 = "#FFFFFF"  # branca / white
 co1 = "#333333"  # preta pesado / dark black
 co8 = "#3297a8"  # azul / blue
@@ -8,7 +8,7 @@ co7 = "#e85151"  # vermelho / red
 co11 = "#a7dde6"  # azul claro
 co12 = "#f19595"  # vermelho claro
 fundo = "#3b3b3b"  # preta / black
-#LOGICA DO JOGO---------------------------------------------------------------
+# LOGICA DO JOGO---------------------------------------------------------------
 prox_jogador = 0
 jogando = "x"
 
@@ -29,11 +29,13 @@ def iniciar_jogo():
         if lista_botoes[i]["text"] == "":
             # coloca a cor do texto de acordo com a cor do valor "X" ou "o"
             cor = co7 if jogando == "x" else co8
-
             lista_botoes[i]["fg"] = cor
             lista_botoes[i]["text"] = jogando
+            # Aqui é determinado qual simbolo ficará semiapagado, ou seja, será a proxima a ser apagada
             cor_apagada()
+            # determina a ordem correta das primeiras jogadas e apaga de acordo com a quantidade de jogadas
             apagar_jogada()
+            # troca os valores da lista_click para os valores iniciais
             substituir_click(i, 0) if i <= 2 else substituir_click(i, 1) \
                 if i < 6 else substituir_click(i, 2)
             contador += 1
@@ -42,6 +44,7 @@ def iniciar_jogo():
             # faz a troca dos jogadores do "X" para o "o"
             jogando = "o" if jogando == "x" else "x"
 
+    # obtém-se as possibilidades de vitória
     def possibilidades():
         global lista_click
 
@@ -59,7 +62,7 @@ def iniciar_jogo():
                 vencedor("o vencedor foi ", jogando)
             if lista_click[0][2] == lista_click[1][1] == lista_click[2][0]:
                 vencedor("o vencedor foi ", jogando)
-
+    # determina quem irá receber o ponto e reiniciar o sistema 
     def vencedor(x=0, y=0):
         global lista_click
         global contador
@@ -69,7 +72,7 @@ def iniciar_jogo():
         botao_iniciar = Button(frame_baixo, command=iniciar_jogo, text="jogar novamente", height=2, width=14, bg=fundo,
                                fg=co0, font="Ivy 15 bold", relief="flat")
         botao_iniciar.place(x=128, y=320)
-
+        
         if jogando == "x":
             ponto_x["text"] += 1
             prox_jogador = 1
@@ -81,7 +84,7 @@ def iniciar_jogo():
         lista_click = [[0, 1, 2], [3, 4, 5], [6, 7, 8]]
         contador = 0
         ordem_jogada = []
-
+    # determina qual jogada irá ficar semiapagada 
     def cor_apagada():
         if contador == 5:
             t = ordem_jogada[0][0]
@@ -90,7 +93,7 @@ def iniciar_jogo():
         if contador >= 6:
             t = ordem_jogada[1][0]
             lista_botoes[t]["fg"] = co12 if lista_botoes[t]["text"] == "x" else co11
-
+    # determina de acordo com a ordem qual simbolo será apagado
     def apagar_jogada():
         if contador >= 6:
             for (b, j, n) in ordem_jogada:
@@ -98,7 +101,7 @@ def iniciar_jogo():
                 lista_click[j][n] = b
                 ordem_jogada.pop(0)
                 break
-
+    # substitui um valor da lista_click para o original
     def substituir_click(i, n):
         lista = i, n, lista_click[n].index(i)
         ordem_jogada.append(lista)
@@ -131,14 +134,14 @@ def iniciar_jogo():
         lista_botoes.append(botao)
 
 
-#JANELA PRINCIPAL
+# JANELA PRINCIPAL
 
 janela = Tk()
 janela.title('JOGO DO NOVO')
 janela.geometry('450x600')
 janela.configure(bg=fundo)
 
-#DIVIDINDO A JANELA EM 2 -----------------------------------------------------------
+# DIVIDINDO A JANELA EM 2 -----------------------------------------------------------
 
 frame_cima = Frame(janela, width=430, height=150, bg=co1, relief="raised")
 frame_cima.grid(row=0, column=0, sticky=NW, padx=10, pady=10)
@@ -147,7 +150,7 @@ frame_baixo = Frame(janela, width=430, height=400, bg=fundo, relief="flat")
 frame_baixo.grid(row=1, column=0, sticky=NW, padx=10, pady=10)
 
 
-#CONFIGURANDO O FRAME DE CIMA -----------------------------------------------------
+# CONFIGURANDO O FRAME DE CIMA -----------------------------------------------------
 
 
 def frame_de_cima(texto, fonte, bg, fg, x, y):
