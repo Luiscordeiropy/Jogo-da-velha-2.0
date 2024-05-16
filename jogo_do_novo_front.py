@@ -35,7 +35,7 @@ def iniciar_jogo():
             cor_apagada()
             # determina a ordem correta das primeiras jogadas e apaga de acordo com a quantidade de jogadas
             apagar_jogada()
-            # troca os valores da lista_click para os valores iniciais
+            # substitui um valor especifico da lista_click por "x" ou "o"
             substituir_click(i, 0) if i <= 2 else substituir_click(i, 1) \
                 if i < 6 else substituir_click(i, 2)
             contador += 1
